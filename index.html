@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-AHRAM</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .admin-panel {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateX(200%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin-right: 0;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+            }
+            
+            .tab.active {
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 5px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Al-AHRAM</h1>
+            <p>pickup and drop-off times</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="openTab('student-form')">Student Form</div>
+            <div class="tab" onclick="openTab('view-data')">View Data</div>
+            <div class="tab" onclick="openTab('admin-panel')">Admin Panel</div>
+        </div>
+
+        <div id="notification" class="notification"></div>
+
+        <!-- Student Form Tab -->
+        <div id="student-form" class="tab-content active">
+            <div class="card">
+                <h2>Submit Your Pickup/Drop-off Times</h2>
+                <form id="transportForm">
+                    <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" id="studentName" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickupTime">Pickup Time</label>
+                        <input type="time" id="pickupTime" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dropoffTime">Drop-off Time</label>
+                        <input type="time" id="dropoffTime" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- View Data Tab -->
+        <div id="view-data" class="tab-content">
+            <div class="card">
+                <h2>Student Transport Data</h2>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <h3>Total Entries</h3>
+                        <p id="totalEntries">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Today's Entries</h3>
+                        <p id="todayEntries">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Latest Pickup</h3>
+                        <p id="latestPickup">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Latest Dropoff</h3>
+                        <p id="latestDropoff">-</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="searchInput">Search:</label>
+                    <input type="text" id="searchInput" placeholder="Search by student name...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="dateFilter">Filter by Date:</label>
+                    <input type="date" id="dateFilter">
+                </div>
+                
+                <button onclick="exportToCSV()">Export to CSV</button>
+                <button class="btn-success" onclick="sendWhatsApp()">Send via WhatsApp</button>
+                
+                <table id="transportTable">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Date</th>
+                            <th>Pickup Time</th>
+                            <th>Drop-off Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Admin Panel Tab -->
+        <div id="admin-panel" class="tab-content">
+            <div class="card">
+                <h2>Admin Panel</h2>
+                
+                <div class="admin-panel">
+                    <h3>WhatsApp Settings</h3>
+                    <div class="form-group">
+                        <label for="adminPhone">Admin Phone Number (with country code)</label>
+                        <input type="text" id="adminPhone" placeholder="e.g., 15551234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsappMessage">Default WhatsApp Message</label>
+                        <textarea id="whatsappMessage" class="form-control" rows="3" placeholder="Default message to include with the data">Here's the student transport data:</textarea>
+                    </div>
+                    <button onclick="saveSettings()">Save Settings</button>
+                </div>
+                
+                <div class="admin-panel">
+                    <h3>Data Management</h3>
+                    <button class="btn-danger" onclick="clearAllData()">Clear All Data</button>
+                    <p><small>Warning: This will permanently delete all student transport records.</small></p>
+                </div>
+                
+                <div class="admin-panel">
+                    <h3>System Information</h3>
+                    <p><strong>Total Records:</strong> <span id="sysTotalRecords">0</span></p>
+                    <p><strong>Last Updated:</strong> <span id="sysLastUpdated">Never</span></p>
+                    <p><strong>Browser Storage:</strong> <span id="sysStorageStatus">Supported</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let transportData = [];
+        let adminSettings = {
+            phone: '',
+            message: 'Here\'s the student transport data:'
+        };
+
+        // DOM Content Loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            loadSettings();
+            updateStats();
+            renderTable();
+            
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+            document.getElementById('dateFilter').value = today;
+            
+            // Form submission
+            document.getElementById('transportForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitForm();
+            });
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function() {
+                filterTable();
+            });
+            
+            // Date filter functionality
+            document.getElementById('dateFilter').addEventListener('change', function() {
+                filterTable();
+            });
+            
+            // Check for browser storage support
+            if (!localStorageAvailable()) {
+                document.getElementById('sysStorageStatus').textContent = 'Not Supported';
+                document.getElementById('sysStorageStatus').style.color = 'red';
+                showNotification('Warning: Your browser doesn\'t support local storage. Data will not persist.', 'error');
+            }
+        });
+
+        // Tab navigation
+        function openTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tabs
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Show the selected tab content and mark tab as active
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Form submission
+        function submitForm() {
+            const studentName = document.getElementById('studentName').value;
+            const pickupTime = document.getElementById('pickupTime').value;
+            const dropoffTime = document.getElementById('dropoffTime').value;
+            const date = document.getElementById('date').value;
+            
+            // Create new record
+            const newRecord = {
+                id: Date.now(), // Unique ID based on timestamp
+                studentName: studentName,
+                date: date,
+                pickupTime: pickupTime,
+                dropoffTime: dropoffTime,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Add to data array
+            transportData.push(newRecord);
+            
+            // Save to localStorage
+            saveData();
+            
+            // Reset form
+            document.getElementById('transportForm').reset();
+            document.getElementById('date').value = new Date().toISOString().split('T')[0];
+            
+            // Show success message
+            showNotification('Your times have been submitted successfully!');
+            
+            // Update table and stats
+            renderTable();
+            updateStats();
+        }
+
+        // Render table with data
+        function renderTable(data = transportData) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No data available</td></tr>';
+                return;
+            }
+            
+            // Sort by date and time (newest first)
+            const sortedData = [...data].sort((a, b) => {
+                const dateA = new Date(`${a.date}T${a.pickupTime}`);
+                const dateB = new Date(`${b.date}T${b.pickupTime}`);
+                return dateB - dateA;
+            });
+            
+            // Create table rows
+            sortedData.forEach(record => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${record.studentName}</td>
+                    <td>${formatDate(record.date)}</td>
+                    <td>${formatTime(record.pickupTime)}</td>
+                    <td>${formatTime(record.dropoffTime)}</td>
+                    <td>
+                        <button class="btn-danger" onclick="deleteRecord(${record.id})">Delete</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Filter table based on search and date
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterDate = document.getElementById('dateFilter').value;
+            
+            const filteredData = transportData.filter(record => {
+                const matchesSearch = record.studentName.toLowerCase().includes(searchTerm);
+                const matchesDate = filterDate ? record.date === filterDate : true;
+                return matchesSearch && matchesDate;
+            });
+            
+            renderTable(filteredData);
+        }
+
+        // Delete a record
+        function deleteRecord(id) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                transportData = transportData.filter(record => record.id !== id);
+                saveData();
+                renderTable();
+                updateStats();
+                showNotification('Record deleted successfully');
+            }
+        }
+
+        // Clear all data
+        function clearAllData() {
+            if (confirm('WARNING: This will delete ALL student transport records. Are you sure?')) {
+                transportData = [];
+                saveData();
+                renderTable();
+                updateStats();
+                showNotification('All data has been cleared', 'error');
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            if (transportData.length === 0) {
+                showNotification('No data to export', 'error');
+                return;
+            }
+            
+            let csv = 'Student Name,Date,Pickup Time,Drop-off Time\n';
+            
+            transportData.forEach(record => {
+                csv += `"${record.studentName}",${record.date},${record.pickupTime},${record.dropoffTime}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `student_transport_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Data exported to CSV');
+        }
+
+        // Send data via WhatsApp
+        function sendWhatsApp() {
+            if (transportData.length === 0) {
+                showNotification('No data to send', 'error');
+                return;
+            }
+            
+            if (!adminSettings.phone) {
+                showNotification('Please set admin phone number in settings', 'error');
+                openTab('admin-panel');
+                return;
+            }
+            
+            // Create message with table data
+            let message = adminSettings.message + '\n\n';
+            
+            // Add table header
+            message += 'Student Name\tDate\tPickup\tDrop-off\n';
+            
+            // Add table rows
+            transportData.forEach(record => {
+                message += `${record.studentName}\t${formatDate(record.date)}\t${formatTime(record.pickupTime)}\t${formatTime(record.dropoffTime)}\n`;
+            });
+            
+            // Encode for WhatsApp URL
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${adminSettings.phone}?text=${encodedMessage}`;
+            
+            // Open in new tab
+            window.open(whatsappUrl, '_blank');
+            
+            showNotification('WhatsApp message prepared');
+        }
+
+        // Save admin settings
+        function saveSettings() {
+            adminSettings.phone = document.getElementById('adminPhone').value;
+            adminSettings.message = document.getElementById('whatsappMessage').value;
+            
+            localStorage.setItem('transportAdminSettings', JSON.stringify(adminSettings));
+            showNotification('Settings saved successfully');
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalEntries').textContent = transportData.length;
+            
+            const today = new Date().toISOString().split('T')[0];
+            const todayEntries = transportData.filter(record => record.date === today).length;
+            document.getElementById('todayEntries').textContent = todayEntries;
+            
+            // Find latest pickup and dropoff times
+            if (transportData.length > 0) {
+                const latestPickup = transportData.reduce((latest, record) => {
+                    return record.pickupTime > latest ? record.pickupTime : latest;
+                }, '00:00');
+                
+                const latestDropoff = transportData.reduce((latest, record) => {
+                    return record.dropoffTime > latest ? record.dropoffTime : latest;
+                }, '00:00');
+                
+                document.getElementById('latestPickup').textContent = formatTime(latestPickup);
+                document.getElementById('latestDropoff').textContent = formatTime(latestDropoff);
+            } else {
+                document.getElementById('latestPickup').textContent = '-';
+                document.getElementById('latestDropoff').textContent = '-';
+            }
+            
+            // Update system info
+            document.getElementById('sysTotalRecords').textContent = transportData.length;
+            document.getElementById('sysLastUpdated').textContent = new Date().toLocaleString();
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            const savedData = localStorage.getItem('transportData');
+            if (savedData) {
+                transportData = JSON.parse(savedData);
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('transportData', JSON.stringify(transportData));
+        }
+
+        // Load admin settings from localStorage
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('transportAdminSettings');
+            if (savedSettings) {
+                adminSettings = JSON.parse(savedSettings);
+                document.getElementById('adminPhone').value = adminSettings.phone;
+                document.getElementById('whatsappMessage').value = adminSettings.message;
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        // Format time for display
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const displayHour = hour % 12 || 12;
+            return `${displayHour}:${minutes} ${ampm}`;
+        }
+
+        // Check if localStorage is available
+        function localStorageAvailable() {
+            try {
+                const test = 'test';
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+                return true;
+            } catch(e) {
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
